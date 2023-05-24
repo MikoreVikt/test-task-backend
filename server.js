@@ -10,7 +10,10 @@ const port = process.env.PORT || 5500;
 (async () => {
   try {
     mongoose.set("strictQuery", true);
-    await mongoose.connect(MONGODB_HOST);
+    await mongoose.connect(MONGODB_HOST, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     console.log("Database connection successful");
     app.listen(port, () => {
       console.log(`Server running. Use our API on port: ${port}`);
