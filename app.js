@@ -1,7 +1,8 @@
+require("dotenv").config({ path: "./.env" });
+
 const express = require("express");
-const logger = require("morgan");
 const cors = require("cors");
-require("dotenv").config();
+const logger = require("morgan");
 
 const { authRouter } = require("./routes/api/authRouter");
 const { pollRouter } = require("./routes/api/pollRouter");
@@ -10,8 +11,6 @@ const { adminRouter } = require("./routes/api/adminRouter");
 const app = express();
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
-
-app.use(express.static("public"));
 
 app.use(logger(formatsLogger));
 app.use(cors());
@@ -29,4 +28,4 @@ app.use((err, req, res, next) => {
   res.status(err.statusCode || 500).json({ message: err.message });
 });
 
-module.exports = app;
+module.exports = { app };
