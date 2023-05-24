@@ -3,15 +3,12 @@ require("dotenv").config();
 const { app } = require("./app");
 const mongoose = require("mongoose");
 
-const uri =
-  "mongodb+srv://asperranor:19JastaiG099@cluster0.cqvnluj.mongodb.net/test?retryWrites=true&w=majority";
-
 const port = process.env.PORT || 5500;
 
 (async () => {
   try {
     mongoose.set("strictQuery", true);
-    await mongoose.connect(uri, {
+    await mongoose.connect(process.env.MONGODB_HOST, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
