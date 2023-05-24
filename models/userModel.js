@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, SchemaTypes } = require("mongoose");
 const { hash } = require("bcrypt");
 const Joi = require("joi");
 
@@ -48,6 +48,12 @@ const userSchema = new Schema(
       enum: ["GUEST", "ADMIN"],
       default: "GUEST",
     },
+    ownPoll: [
+      {
+        type: SchemaTypes.ObjectId,
+        ref: "poll",
+      },
+    ],
   },
   { versionKey: false, timestamps: true }
 );
