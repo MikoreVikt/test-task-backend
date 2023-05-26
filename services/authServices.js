@@ -5,7 +5,12 @@ const { HttpError } = require("../helpers/httpError");
 
 const { JWT_SECRET } = process.env;
 
-const registration = async ({ username, email, password, status }) => {
+const registration = async ({
+  username,
+  email,
+  password,
+  status = "GUEST",
+}) => {
   const user = await User.findOne({ email });
 
   if (status === "ADMIN")

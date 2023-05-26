@@ -1,11 +1,28 @@
-const { postPoll } = require("../services/pollServices");
+const { postFirstPoll, postSecondPoll } = require("../services/pollServices");
 const { currentUser } = require("../services/authServices");
 
-const postPollController = async (req, res) => {
+const postFirstPollController = async (req, res) => {
   const { body } = req;
   const { _id: owner } = req.user;
 
-  const result = await postPoll(body, owner);
+  const result = await postFirstPoll(body, owner);
+
+  if (result) {
+    const guest = await currentUser(owner);
+    await guest.ownPoll.push(result);
+    await guest.save();
+  }
+
+  res.status(201).json({
+    result,
+  });
+};
+
+const postSecondPollController = async (req, res) => {
+  const { body } = req;
+  const { _id: owner } = req.user;
+
+  const result = await postSecondPoll(body, owner);
 
   if (result) {
     const guest = await currentUser(owner);
@@ -19,5 +36,6 @@ const postPollController = async (req, res) => {
 };
 
 module.exports = {
-  postPollController,
+  postFirstPollController,
+  postSecondPollController,
 };

@@ -1,17 +1,27 @@
 const { Poll } = require("../models/pollModel");
 
-const postPoll = async (
-  { firstQuestion, secondQuestion, thirdQuestion, number },
+const postFirstPoll = async (
+  { firstQuestion, secondQuestion, thirdQuestion },
   owner
 ) => {
-  const guest = await Poll.find({ owner });
+  const number = "first";
+  const status = true;
 
-  const correctNumber = guest.map(({ number }) =>
-    number === "first" ? "second" : "first"
-  );
+  return await Poll.create({
+    firstQuestion,
+    secondQuestion,
+    thirdQuestion,
+    number,
+    status,
+    owner,
+  });
+};
 
-  number = correctNumber[0];
-
+const postSecondPoll = async (
+  { firstQuestion, secondQuestion, thirdQuestion },
+  owner
+) => {
+  const number = "second";
   const status = true;
 
   return await Poll.create({
@@ -25,5 +35,6 @@ const postPoll = async (
 };
 
 module.exports = {
-  postPoll,
+  postFirstPoll,
+  postSecondPoll,
 };

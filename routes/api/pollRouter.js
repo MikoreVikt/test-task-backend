@@ -9,14 +9,22 @@ const { joiPollSchema } = require("../../models/pollModel");
 
 const { asyncWrapper } = require("../../helpers/apiHelpers");
 
-const { postPollController } = require("../../controllers/pollController");
+const {
+  postFirstPollController,
+  postSecondPollController,
+} = require("../../controllers/pollController");
 
 router.use(authMiddleware);
 
 router.post(
-  "/poll",
+  "/firstpoll",
   validation(joiPollSchema),
-  asyncWrapper(postPollController)
+  asyncWrapper(postFirstPollController)
+);
+router.post(
+  "/secondpoll",
+  validation(joiPollSchema),
+  asyncWrapper(postSecondPollController)
 );
 
 module.exports = {
