@@ -6,12 +6,13 @@ const {
 } = require("../services/authServices");
 
 const registrationController = async (req, res) => {
-  const { username, email } = await registration(req.body);
+  const { username, email, token } = await registration(req.body);
 
   res.status(201).json({
     message: "New user has been created!",
     status: "created",
     code: "201",
+    token,
     user: {
       username,
       email,

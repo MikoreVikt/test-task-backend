@@ -21,6 +21,13 @@ const registration = async ({ username, email, password, status }) => {
   });
   await newUser.save();
 
+  const { _id, createdAt } = newUser;
+  const token = sign({ _id, createdAt }, JWT_SECRET);
+
+  newUser.token = token;
+
+  await User.findByIdAndUpdate({ _id }, { token }, { new: true });
+
   return newUser;
 };
 
