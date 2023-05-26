@@ -34,7 +34,7 @@ const registration = async ({ username, email, password, status }) => {
 const logIn = async (email, password) => {
   const user = await User.findOne({ email });
 
-  const { _id, createdAt, username, ownPoll } = user;
+  const { _id, createdAt, username, status, ownPoll } = user;
 
   if (!user) throw new HttpError(401, `No user with email: '${email}' found`);
 
@@ -46,7 +46,7 @@ const logIn = async (email, password) => {
   await User.findByIdAndUpdate({ _id }, { token }, { new: true });
 
   return {
-    user: { username, email, ownPoll },
+    user: { username, email, status, ownPoll },
     token,
   };
 };
