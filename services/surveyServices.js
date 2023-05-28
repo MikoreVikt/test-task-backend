@@ -9,8 +9,6 @@ const getMyAnswers = async (owner) => {
   await first.map((obj) => answers.push(obj));
   await second.map((obj) => answers.push(obj));
 
-  console.log(answers);
-
   return answers;
 };
 
