@@ -1,11 +1,14 @@
-const { postFirstPoll, postSecondPoll } = require("../services/pollServices");
+const {
+  postFirstAnswer,
+  postSecondAnswer,
+} = require("../services/surveyServices");
 const { currentUser } = require("../services/authServices");
 
-const postFirstPollController = async (req, res) => {
+const firstSurveyController = async (req, res) => {
   const { body } = req;
   const { _id: owner } = req.user;
 
-  const result = await postFirstPoll(body, owner);
+  const result = await postFirstAnswer(body, owner);
 
   if (result) {
     const guest = await currentUser(owner);
@@ -18,11 +21,11 @@ const postFirstPollController = async (req, res) => {
   });
 };
 
-const postSecondPollController = async (req, res) => {
+const secondSurveyController = async (req, res) => {
   const { body } = req;
   const { _id: owner } = req.user;
 
-  const result = await postSecondPoll(body, owner);
+  const result = await postSecondAnswer(body, owner);
 
   if (result) {
     const guest = await currentUser(owner);
@@ -36,6 +39,6 @@ const postSecondPollController = async (req, res) => {
 };
 
 module.exports = {
-  postFirstPollController,
-  postSecondPollController,
+  firstSurveyController,
+  secondSurveyController,
 };

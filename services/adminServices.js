@@ -1,12 +1,12 @@
 const { User } = require("../models/userModel");
-const { Poll } = require("../models/pollModel");
+const { FirstSurvey } = require("../models/surveyModel");
 
 const getUsers = async () => {
   return await User.find({});
 };
 
 const checkPoll = async (number) => {
-  return await Poll.find({ number });
+  return await FirstSurvey.find({ number });
 };
 
 module.exports = {
