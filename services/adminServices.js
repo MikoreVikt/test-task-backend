@@ -1,15 +1,53 @@
 const { User } = require("../models/userModel");
-const { FirstSurvey } = require("../models/surveyModel");
+const { FirstSurvey, SecondSurvey } = require("../models/surveyModel");
 
-const getUsers = async () => {
-  return await User.find({});
+const getFirstResult = async () => {
+  const users = await User.find({});
+
+  const guests = await users.filter((object) => object.status === "GUEST");
+
+  const username = await guests.map(({ _id, username }) => {
+    return {
+      _id,
+      username,
+    };
+  });
+
+  const userAnswers = await guests.map((user) => user.ownPoll);
+
+  const uA = userAnswers.map((arr) => arr[0]);
+
+  const answers = await Promise.all(
+    uA.map(async ({ _id }) => await FirstSurvey.find({ _id }))
+  );
+
+  return { username, answers };
 };
 
-const checkPoll = async (number) => {
-  return await FirstSurvey.find({ number });
+const getSecondResult = async () => {
+  const users = await User.find({});
+
+  const guests = await users.filter((object) => object.status === "GUEST");
+
+  const username = await guests.map(({ _id, username }) => {
+    return {
+      _id,
+      username,
+    };
+  });
+
+  const userAnswers = await guests.map((user) => user.ownPoll);
+
+  const uA = userAnswers.map((arr) => arr[1]);
+
+  const answers = await Promise.all(
+    uA.map(async ({ _id }) => await SecondSurvey.find({ _id }))
+  );
+
+  return { username, answers };
 };
 
 module.exports = {
-  getUsers,
-  checkPoll,
+  getFirstResult,
+  getSecondResult,
 };

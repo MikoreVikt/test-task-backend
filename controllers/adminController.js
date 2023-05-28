@@ -1,22 +1,21 @@
-const { getUsers, checkPoll } = require("../services/adminServices");
+const {
+  getFirstResult,
+  getSecondResult,
+} = require("../services/adminServices");
 
-const getUsersController = async (req, res) => {
-  const users = await getUsers();
+const getFirstResultController = async (req, res) => {
+  const { username, answers } = await getFirstResult();
 
-  const guest = await users.filter((object) => object.status === "GUEST");
-
-  res.status(200).json({ guest });
+  res.status(200).json({ username, answers });
 };
 
-const checkPollController = async (req, res) => {
-  const { pollNumber } = req.params;
+const getSecondResultController = async (req, res) => {
+  const { username, answers } = await getSecondResult();
 
-  const result = await checkPoll(pollNumber);
-
-  res.status(200).json({ result });
+  res.status(200).json({ username, answers });
 };
 
 module.exports = {
-  getUsersController,
-  checkPollController,
+  getFirstResultController,
+  getSecondResultController,
 };

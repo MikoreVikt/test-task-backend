@@ -6,14 +6,14 @@ const { authMiddleware } = require("../../middlewares/authMiddleware");
 const { asyncWrapper } = require("../../helpers/apiHelpers");
 
 const {
-  getUsersController,
-  checkPollController,
+  getFirstResultController,
+  getSecondResultController,
 } = require("../../controllers/adminController");
 
 router.use(authMiddleware);
 
-router.get("/userscheck", asyncWrapper(getUsersController));
-router.get("/pollcheck/:pollNumber", asyncWrapper(checkPollController));
+router.get("/firstresult", asyncWrapper(getFirstResultController));
+router.get("/secondresult", asyncWrapper(getSecondResultController));
 
 module.exports = {
   adminRouter: router,
