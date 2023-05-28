@@ -1,8 +1,19 @@
 const {
+  getMyAnswers,
   postFirstAnswer,
   postSecondAnswer,
 } = require("../services/surveyServices");
 const { currentUser } = require("../services/authServices");
+
+const getMyAnswersController = async (req, res) => {
+  const { _id: owner } = req.user;
+
+  const answers = await getMyAnswers(owner);
+
+  res.status(200).json({
+    answers,
+  });
+};
 
 const firstSurveyController = async (req, res) => {
   const { body } = req;
@@ -39,6 +50,7 @@ const secondSurveyController = async (req, res) => {
 };
 
 module.exports = {
+  getMyAnswersController,
   firstSurveyController,
   secondSurveyController,
 };

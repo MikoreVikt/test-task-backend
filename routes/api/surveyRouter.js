@@ -15,10 +15,12 @@ const { asyncWrapper } = require("../../helpers/apiHelpers");
 const {
   firstSurveyController,
   secondSurveyController,
+  getMyAnswersController,
 } = require("../../controllers/surveyController");
 
 router.use(authMiddleware);
 
+router.get("/myanswers", asyncWrapper(getMyAnswersController));
 router.post(
   "/firstsurvey",
   validation(joiFirstSurveySchema),

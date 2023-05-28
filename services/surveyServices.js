@@ -1,5 +1,19 @@
 const { FirstSurvey, SecondSurvey } = require("../models/surveyModel");
 
+const getMyAnswers = async (owner) => {
+  const first = await FirstSurvey.find({ owner });
+  const second = await SecondSurvey.find({ owner });
+
+  const answers = [];
+
+  await first.map((obj) => answers.push(obj));
+  await second.map((obj) => answers.push(obj));
+
+  console.log(answers);
+
+  return answers;
+};
+
 const postFirstAnswer = async ({ fullName, education, courses }, owner) => {
   const number = "first";
   const status = true;
@@ -29,6 +43,7 @@ const postSecondAnswer = async ({ position, stack, salary }, owner) => {
 };
 
 module.exports = {
+  getMyAnswers,
   postFirstAnswer,
   postSecondAnswer,
 };
