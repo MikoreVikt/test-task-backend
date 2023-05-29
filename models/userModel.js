@@ -1,5 +1,5 @@
 const { Schema, model, SchemaTypes } = require("mongoose");
-const { hash } = require("bcrypt");
+const bcrypt = require("bcrypt");
 const Joi = require("joi");
 
 const joiRegiterSchema = Joi.object({
@@ -58,10 +58,18 @@ const userSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-userSchema.pre("save", async function () {
-  if (this.isNew) {
-    this.password = await hash(this.password, 10);
+userSchema.methods.isPasswordCorrect = async function (password) {
+  const user = this;
+  return await bcrypt.compare(password, user.password);
+};
+
+userSchema.pre("save", async function (next) {
+  const user = this;
+  if (!user.isModified("password")) {
+    return next();
   }
+  user.password = await bcrypt.hash(user.password, 12);
+  next();
 });
 
 const User = model("user", userSchema);
